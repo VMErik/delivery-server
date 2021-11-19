@@ -10,6 +10,9 @@ module.exports = (app, upload) => {
     app.get('/api/users/getAll', UserController.getAll);
     // Traemos por id, el passport es para uatenticas
     app.get('/api/users/findById/:id', passport.authenticate('jwt', { session: false }), UserController.findById);
+
+    app.get('/api/users/findDeliveryMen', passport.authenticate('jwt', { session: false }), UserController.findDeliveryMen);
+
     // Deinfimos nuesstro post 
     // Inidcamos que subiremos una imagen con el upload.array
     app.post('/api/users/create', upload.array('image', 1), UserController.createWithImage);

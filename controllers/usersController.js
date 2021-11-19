@@ -45,6 +45,24 @@ module.exports = {
         }
     },
 
+    async findDeliveryMen(req, res, next) {
+
+        try {
+            const data = await User.findDeliveryMen();
+            console.log(`Usuarios : ${data}`);
+            return res.status(201).json(data);
+        } catch (error) {
+            console.log(`ERROR :${error}`);
+            return res.status(501).json({
+
+                // Retornamos un mapa con la info del errir 
+                success: false,
+                message: `Error al obtener los repartidores`,
+                error: error.message
+            });
+        }
+    },
+
     // Agregamos para poder  registrar un usuario
     async create(req, res, next) {
 

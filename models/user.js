@@ -91,6 +91,17 @@ User.findByEmail = (email) => {
 }
 
 
+
+User.findDeliveryMen = () => {
+    const sql = `select U.id, U.email, U.name, U.lastname, U.image, U.phone, U.password,U.session_token 
+                    from users  AS U
+                    inner join user_has_roles AS UHR on UHR.id_user = U.id
+                    inner join roles as R on R.id = UHR.id_rol
+                    where R.id = 3;`;
+    return db.manyOrNone(sql);
+}
+
+
 User.findByUserId = (id) => {
     const sql = `select U.id, U.email, U.name, U.lastname, U.image, U.phone, U.password,U.session_token , 
                     json_agg(
