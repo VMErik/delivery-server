@@ -19,6 +19,10 @@ const admin = require('firebase-admin');
 const serviceAccount = require("./serviceAccountKey.json");
 
 const passport = require('passport');
+const io = require('socket.io')(server);
+
+//Iportamos los sockets
+const orderDeliverySocket = require('./sockets/orders_delivery_socket');
 
 // Iniciañozamps nuestro firebase admins
 admin.initializeApp({
@@ -36,6 +40,7 @@ const categories = require('./routes/categoriesRoutes');
 const address = require('./routes/addressRoutes');
 const products = require('./routes/productsRoutes');
 const orders = require('./routes/ordersRoutes');
+const Order = require('./models/order');
 
 
 // Especificamos que correra por el puerto 3000, en caso de que no tenga nada el env.PORT
@@ -60,6 +65,9 @@ require('./config/passport')(passport);
 app.disable('x-powered-by');
 // Seteamos el puerto a nuestra app
 app.set('port', port);
+
+//Llamamos a los sockets 
+orderDeliverySocket(io);
 
 // le pasamos a nuestas rutas de Users, nuestra app
 users(app, upload);

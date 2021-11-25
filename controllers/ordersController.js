@@ -92,6 +92,25 @@ module.exports = {
         }
     },
 
+    async updateLatLng(req, res, next) {
+        try {
+            // La declaramos como let, por que es una variable, no es una constante
+            let order = req.body;
+            await Order.udpateLatLng(order);
+            return res.status(201).json({
+                success: true,
+                message: 'La orden se actualizo correctamente - lat, lng',
+            });
+        } catch (e) {
+            console.log(`Error ${e}`);
+            return res.status(501).json({
+                success: false,
+                message: 'Hubo un error al actualizar la orden',
+                error: e
+            });
+        }
+    },
+
     async findByStatus(req, res, next) {
         try {
             const status = req.params.status;

@@ -51,7 +51,7 @@ Order.findByStatus = (status) => {
 
 Order.findByClientAndStatus = (idClient, status) => {
 
-    const sql = `SELECT  O.id , O.id_client , O.id_delivery , O.id_address , O.status , O.timestamp , 
+    const sql = `SELECT  O.id , O.id_client , O.id_delivery , O.id_address , O.status , O.timestamp , O.lat, O.lng , 
                     JSON_AGG(
                         JSON_BUILD_OBJECT(
                             'id', P.id,
@@ -168,6 +168,19 @@ Order.udpate = (order) => {
         new Date()
     ]);
 }
+
+
+
+Order.udpateLatLng = (order) => {
+    const sql = `UPDATE orders set lat = $2, lng = $3 
+                where id = $1`;
+    return db.none(sql, [
+        order.id,
+        order.lat,
+        order.lng
+    ]);
+}
+
 
 
 module.exports = Order;
