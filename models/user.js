@@ -63,16 +63,25 @@ User.updateToken = (id, token) => {
 }
 
 
+User.updateNotificationToken = (id, token) => {
+    const sql = `UPDATE users SET notification_token = $2
+                 WHERE id = $1 `;
+    return db.none(sql, [
+        id,
+        token
+    ]);
+}
+
 
 User.findById = (id, callback) => {
-    const sql = `select id, email, name, lastname, image, phone, password,session_token 
+    const sql = `select id, email, name, lastname, image, phone, password,session_token , notification_token
                  from users where id =  $1`;
     return db.oneOrNone(sql, id).then(user => { callback(null, user) });
 
 }
 
 User.findByEmail = (email) => {
-    const sql = `select U.id, U.email, U.name, U.lastname, U.image, U.phone, U.password,U.session_token , 
+    const sql = `select U.id, U.email, U.name, U.lastname, U.image, U.phone, U.password,U.session_token , U.notification_token, 
                     json_agg(
                         json_build_object(
                             'id', R.id , 
@@ -93,7 +102,7 @@ User.findByEmail = (email) => {
 
 
 User.findDeliveryMen = () => {
-    const sql = `select U.id, U.email, U.name, U.lastname, U.image, U.phone, U.password,U.session_token 
+    const sql = `select U.id, U.email, U.name, U.lastname, U.image, U.phone, U.password,U.session_token , U.notification_token
                     from users  AS U
                     inner join user_has_roles AS UHR on UHR.id_user = U.id
                     inner join roles as R on R.id = UHR.id_rol
@@ -103,7 +112,7 @@ User.findDeliveryMen = () => {
 
 
 User.findByUserId = (id) => {
-    const sql = `select U.id, U.email, U.name, U.lastname, U.image, U.phone, U.password,U.session_token , 
+    const sql = `select U.id, U.email, U.name, U.lastname, U.image, U.phone, U.password,U.session_token , U.notification_token ,
                     json_agg(
                         json_build_object(
                             'id', R.id , 

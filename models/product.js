@@ -55,4 +55,12 @@ Product.findByCategory = (id_category) => {
 }
 
 
+Product.findByCategoryAndProductName = (id_category, product_name) => {
+    sql = `SELECT P.id, P.name, P.description, P.price, P.image1, P.image2, P.image3, P.id_category
+            from products as P 
+            inner join categories as C on P.id_category = C.id
+            where c.id = $1 and P.description ILIKE $2`;
+    return db.manyOrNone(sql, [id_category, `%${product_name}%`]);
+}
+
 module.exports = Product;

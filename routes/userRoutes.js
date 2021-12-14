@@ -24,6 +24,7 @@ module.exports = (app, upload) => {
     // Esta ruta es para actualizar, el passpport es para autenticar
     app.put('/api/users/update', passport.authenticate('jwt', { session: false }), upload.array('image', 1), UserController.update);
 
+    app.put('/api/users/updateNotificationToken', passport.authenticate('jwt', { session: false }), UserController.updateNotificationToken);
 
 
 };

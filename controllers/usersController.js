@@ -92,6 +92,32 @@ module.exports = {
         }
     },
 
+    async updateNotificationToken(req, res, next) {
+
+        try {
+
+            // Obteneomos los parametros a partir del Body
+            const body = req.body;
+
+            console.log('Se ha mandado solicitud para guardar el token ')
+            await User.updateNotificationToken(body.id, body.notification_token);
+
+            return res.status(201).json({
+                success: true,
+                message: 'El token de notoificaciones se ha almacenado correctamente',
+            });
+        } catch (error) {
+            console.log(`ERROR :${error}`);
+            return res.status(501).json({
+                // Retornamos un mapa con la info del errir 
+                success: false,
+                message: `Error al almacenar el token de notificaciones`,
+                error: error.message
+            });
+        }
+    },
+
+
     //Registrar con una imagen 
     async createWithImage(req, res, next) {
 

@@ -23,6 +23,7 @@ create table users(
 	lastname varchar(255) NOT NULL,
 	phone varchar(80) NOT NULL UNIQUE,
 	image varchar(255) NULL,
+	notification_token varchar(255) null,
 	password varchar(255) NOT NULL, 
 	is_available BOOLEAN null , 
 	session_token varchar(255) null, 
